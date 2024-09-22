@@ -108,7 +108,7 @@ class AutoCompletePage(tk.Frame):
             self.listbox = None  # Set it to None so it can be recreated later
 
     def print_text(self):
-        """Send the selected text to the specific printer."""
+        """Send the selected text to the specific printer using default settings."""
         text_to_print = self.entry.get()
 
         if text_to_print:
@@ -129,7 +129,7 @@ class AutoCompletePage(tk.Frame):
                 # Start the print job
                 hPrinter = win32print.OpenPrinter(printer_to_use[2])
                 try:
-                    # Define document info
+                    # Define document info without specifying DEVMODE
                     hJob = win32print.StartDocPrinter(hPrinter, 1, ("Print Job", None, "RAW"))
                     win32print.StartPagePrinter(hPrinter)
 

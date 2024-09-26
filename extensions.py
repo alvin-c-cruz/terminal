@@ -1,23 +1,22 @@
 import sqlite3
+from pathlib import Path
+from user.sql_commands import create_users_table
+
 
 # Function to connect to the database
 def get_db_connection():
-    conn = sqlite3.connect('users.db')
+    db_path = Path.cwd() / 'instance' / 'data.db'
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row  # To access columns by name
     return conn
 
 # Initialize the database and create the 'users' table if it doesn't exist
 def init_db():
     conn = get_db_connection()
-    cursor = conn.cursor()
     
-    # Create users table if it doesn't exist
-    cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        username TEXT UNIQUE NOT NULL,
-                        password TEXT NOT NULL)''')
+    # Create users table using the function in sql_commands.py
+    create_users_table(conn)
     
-    conn.commit()
     conn.close()
 
 # Method to close the application

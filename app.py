@@ -1,25 +1,17 @@
 import tkinter as tk
-import sqlite3
-from login_page import LoginPage
-from registration_page import RegistrationPage
+from user.login_page import LoginPage
+from user.registration_page import RegistrationPage
 from home_page import HomePage
-from extensions import init_db  # Import the init_db function
+from extensions import init_db, get_db_connection
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Login and Registration System")
-        
+        self.title("RIC Inventory")
+
         # Initialize the database and keep the connection open
         init_db()
-        self.conn = sqlite3.connect('users.db')
-
-        # Get the screen width and height
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-
-        # Set window geometry to the current screen resolution
-        self.geometry(f"{screen_width}x{screen_height}")
+        self.conn = get_db_connection()
 
         # Initialize container to hold the different frames
         container = tk.Frame(self)
@@ -47,8 +39,8 @@ class App(tk.Tk):
 
 if __name__ == "__main__":
     app = App()
-    
+
     # Bind the window's close event to close the database connection
     app.protocol("WM_DELETE_WINDOW", app.on_closing)
-    
+
     app.mainloop()
